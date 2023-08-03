@@ -32,7 +32,6 @@
         }
       },
       "required": [
-        "AggregationFunction",
         "Column",
         "SortDirection"
       ],
@@ -821,9 +820,9 @@
         },
         "Expression": {
           "type": "string",
-          "maxLength": 4096,
+          "maxLength": 32000,
           "minLength": 1,
-          "markdownDescription": "\n\n---\n\nRequired: Yes  \nType: String  \nMinimum Length: 1  \nMaximum Length: 4096  \nUpdate requires: No interruption"
+          "markdownDescription": "\n\n---\n\nRequired: Yes  \nType: String  \nMinimum Length: 1  \nMaximum Length: 32000  \nUpdate requires: No interruption"
         }
       },
       "required": [
@@ -1111,22 +1110,6 @@
       "additionalProperties": false,
       "markdownDescription": "\n\n---\n\nRequired: No  \nUpdate requires: No interruption"
     },
-    "ColorsConfiguration": {
-      "type": "object",
-      "properties": {
-        "CustomColors": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/CustomColor"
-          },
-          "maxItems": 50,
-          "minItems": 0,
-          "markdownDescription": "\n\n---\n\nRequired: No  \nType: Array  \nUpdate requires: No interruption"
-        }
-      },
-      "additionalProperties": false,
-      "markdownDescription": "\n\n---\n\nRequired: No  \nUpdate requires: No interruption"
-    },
     "ColumnConfiguration": {
       "type": "object",
       "properties": {
@@ -1138,9 +1121,6 @@
         },
         "Role": {
           "$ref": "#/definitions/ColumnRole"
-        },
-        "ColorsConfiguration": {
-          "$ref": "#/definitions/ColorsConfiguration"
         }
       },
       "required": [
@@ -1847,29 +1827,6 @@
       "additionalProperties": false,
       "markdownDescription": "\n\n---\n\nRequired: No  \nUpdate requires: No interruption"
     },
-    "CustomColor": {
-      "type": "object",
-      "properties": {
-        "FieldValue": {
-          "type": "string",
-          "maxLength": 2048,
-          "minLength": 0,
-          "markdownDescription": "\n\n---\n\nRequired: No  \nType: String  \nMaximum Length: 2048  \nUpdate requires: No interruption"
-        },
-        "Color": {
-          "type": "string",
-          "markdownDescription": "\n\n---\n\nRequired: Yes  \nType: String  \nPattern: ^#[A-F0-9]{6}$  \nUpdate requires: No interruption"
-        },
-        "SpecialValue": {
-          "$ref": "#/definitions/SpecialValue"
-        }
-      },
-      "required": [
-        "Color"
-      ],
-      "additionalProperties": false,
-      "markdownDescription": "\n\n---\n\nRequired: No  \nUpdate requires: No interruption"
-    },
     "CustomContentConfiguration": {
       "type": "object",
       "properties": {
@@ -2205,6 +2162,9 @@
         },
         "Overlap": {
           "$ref": "#/definitions/DataLabelOverlap"
+        },
+        "TotalsVisibility": {
+          "$ref": "#/definitions/Visibility"
         }
       },
       "additionalProperties": false,
@@ -2792,6 +2752,9 @@
           "maxLength": 512,
           "minLength": 1,
           "markdownDescription": "\n\n---\n\nRequired: No  \nType: String  \nMinimum Length: 1  \nMaximum Length: 512  \nUpdate requires: No interruption"
+        },
+        "SourceColumn": {
+          "$ref": "#/definitions/ColumnIdentifier"
         }
       },
       "additionalProperties": false,
@@ -3541,6 +3504,15 @@
         },
         "SelectedFieldOptions": {
           "$ref": "#/definitions/SelectedFieldOptions"
+        },
+        "SelectedColumns": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ColumnIdentifier"
+          },
+          "maxItems": 10,
+          "minItems": 0,
+          "markdownDescription": "\n\n---\n\nRequired: No  \nType: Array  \nUpdate requires: No interruption"
         }
       },
       "additionalProperties": false,
@@ -4454,6 +4426,46 @@
       "additionalProperties": false,
       "markdownDescription": "\n\n---\n\nRequired: No  \nUpdate requires: No interruption"
     },
+    "GeospatialHeatmapColorScale": {
+      "type": "object",
+      "properties": {
+        "Colors": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/GeospatialHeatmapDataColor"
+          },
+          "maxItems": 2,
+          "minItems": 2,
+          "markdownDescription": "\n\n---\n\nRequired: No  \nType: Array  \nUpdate requires: No interruption"
+        }
+      },
+      "additionalProperties": false,
+      "markdownDescription": "\n\n---\n\nRequired: No  \nUpdate requires: No interruption"
+    },
+    "GeospatialHeatmapConfiguration": {
+      "type": "object",
+      "properties": {
+        "HeatmapColor": {
+          "$ref": "#/definitions/GeospatialHeatmapColorScale"
+        }
+      },
+      "additionalProperties": false,
+      "markdownDescription": "\n\n---\n\nRequired: No  \nUpdate requires: No interruption"
+    },
+    "GeospatialHeatmapDataColor": {
+      "type": "object",
+      "properties": {
+        "Color": {
+          "type": "string",
+          "markdownDescription": "\n\n---\n\nRequired: Yes  \nType: String  \nPattern: ^#[A-F0-9]{6}$  \nUpdate requires: No interruption"
+        }
+      },
+      "required": [
+        "Color"
+      ],
+      "additionalProperties": false,
+      "markdownDescription": "\n\n---\n\nRequired: No  \nUpdate requires: No interruption"
+    },
     "GeospatialMapAggregatedFieldWells": {
       "type": "object",
       "properties": {
@@ -4587,6 +4599,9 @@
         },
         "ClusterMarkerConfiguration": {
           "$ref": "#/definitions/ClusterMarkerConfiguration"
+        },
+        "HeatmapConfiguration": {
+          "$ref": "#/definitions/GeospatialHeatmapConfiguration"
         }
       },
       "additionalProperties": false,
@@ -4596,9 +4611,10 @@
       "type": "string",
       "enum": [
         "POINT",
-        "CLUSTER"
+        "CLUSTER",
+        "HEATMAP"
       ],
-      "markdownDescription": "\n\n---\n\nRequired: No  \nType: String  \nAllowed Values: POINT | CLUSTER  \nUpdate requires: No interruption"
+      "markdownDescription": "\n\n---\n\nRequired: No  \nType: String  \nAllowed Values: POINT | CLUSTER | HEATMAP  \nUpdate requires: No interruption"
     },
     "GeospatialWindowOptions": {
       "type": "object",
@@ -7287,6 +7303,15 @@
         },
         "Scope": {
           "$ref": "#/definitions/PivotTableConditionalFormattingScope"
+        },
+        "Scopes": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/PivotTableConditionalFormattingScope"
+          },
+          "maxItems": 3,
+          "minItems": 0,
+          "markdownDescription": "\n\n---\n\nRequired: No  \nType: Array  \nUpdate requires: No interruption"
         }
       },
       "required": [
@@ -7389,6 +7414,50 @@
       "additionalProperties": false,
       "markdownDescription": "\n\n---\n\nRequired: No  \nUpdate requires: No interruption"
     },
+    "PivotTableFieldCollapseState": {
+      "type": "string",
+      "enum": [
+        "COLLAPSED",
+        "EXPANDED"
+      ],
+      "markdownDescription": "\n\n---\n\nRequired: No  \nType: String  \nAllowed Values: COLLAPSED | EXPANDED  \nUpdate requires: No interruption"
+    },
+    "PivotTableFieldCollapseStateOption": {
+      "type": "object",
+      "properties": {
+        "Target": {
+          "$ref": "#/definitions/PivotTableFieldCollapseStateTarget"
+        },
+        "State": {
+          "$ref": "#/definitions/PivotTableFieldCollapseState"
+        }
+      },
+      "required": [
+        "Target"
+      ],
+      "additionalProperties": false,
+      "markdownDescription": "\n\n---\n\nRequired: No  \nUpdate requires: No interruption"
+    },
+    "PivotTableFieldCollapseStateTarget": {
+      "type": "object",
+      "properties": {
+        "FieldId": {
+          "type": "string",
+          "markdownDescription": "\n\n---\n\nRequired: No  \nType: String  \nUpdate requires: No interruption"
+        },
+        "FieldDataPathValues": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/DataPathValue"
+          },
+          "maxItems": 20,
+          "minItems": 0,
+          "markdownDescription": "\n\n---\n\nRequired: No  \nType: Array  \nUpdate requires: No interruption"
+        }
+      },
+      "additionalProperties": false,
+      "markdownDescription": "\n\n---\n\nRequired: No  \nUpdate requires: No interruption"
+    },
     "PivotTableFieldOption": {
       "type": "object",
       "properties": {
@@ -7433,6 +7502,13 @@
           },
           "maxItems": 100,
           "minItems": 0,
+          "markdownDescription": "\n\n---\n\nRequired: No  \nType: Array  \nUpdate requires: No interruption"
+        },
+        "CollapseStateOptions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/PivotTableFieldCollapseStateOption"
+          },
           "markdownDescription": "\n\n---\n\nRequired: No  \nType: Array  \nUpdate requires: No interruption"
         }
       },
@@ -7499,6 +7575,9 @@
         },
         "RowAlternateColorOptions": {
           "$ref": "#/definitions/RowAlternateColorOptions"
+        },
+        "CollapsedRowDimensionsVisibility": {
+          "$ref": "#/definitions/Visibility"
         }
       },
       "additionalProperties": false,
@@ -7741,6 +7820,15 @@
       "additionalProperties": false,
       "markdownDescription": "\n\n---\n\nRequired: No  \nUpdate requires: No interruption"
     },
+    "RadarChartAxesRangeScale": {
+      "type": "string",
+      "enum": [
+        "AUTO",
+        "INDEPENDENT",
+        "SHARED"
+      ],
+      "markdownDescription": "\n\n---\n\nRequired: No  \nType: String  \nAllowed Values: AUTO | INDEPENDENT | SHARED  \nUpdate requires: No interruption"
+    },
     "RadarChartConfiguration": {
       "type": "object",
       "properties": {
@@ -7790,6 +7878,9 @@
         },
         "Legend": {
           "$ref": "#/definitions/LegendOptions"
+        },
+        "AxesRangeScale": {
+          "$ref": "#/definitions/RadarChartAxesRangeScale"
         }
       },
       "additionalProperties": false,
@@ -7974,8 +8065,7 @@
       },
       "required": [
         "Calculation",
-        "Column",
-        "MeasureAggregationFunction"
+        "Column"
       ],
       "additionalProperties": false,
       "markdownDescription": "\n\n---\n\nRequired: No  \nUpdate requires: No interruption"
@@ -8200,7 +8290,7 @@
             "type": "string",
             "markdownDescription": "\n\n---\n\nRequired: No  \nType: String  \nUpdate requires: No interruption"
           },
-          "maxItems": 16,
+          "maxItems": 20,
           "minItems": 1,
           "markdownDescription": "\n\n---\n\nRequired: Yes  \nType: Array  \nUpdate requires: No interruption"
         }
@@ -8443,6 +8533,15 @@
           "maxItems": 200,
           "minItems": 0,
           "markdownDescription": "\n\n---\n\nRequired: No  \nType: Array  \nUpdate requires: No interruption"
+        },
+        "Label": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/DimensionField"
+          },
+          "maxItems": 200,
+          "minItems": 0,
+          "markdownDescription": "\n\n---\n\nRequired: No  \nType: Array  \nUpdate requires: No interruption"
         }
       },
       "additionalProperties": false,
@@ -8520,6 +8619,24 @@
           "type": "array",
           "items": {
             "$ref": "#/definitions/MeasureField"
+          },
+          "maxItems": 200,
+          "minItems": 0,
+          "markdownDescription": "\n\n---\n\nRequired: No  \nType: Array  \nUpdate requires: No interruption"
+        },
+        "Category": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/DimensionField"
+          },
+          "maxItems": 200,
+          "minItems": 0,
+          "markdownDescription": "\n\n---\n\nRequired: No  \nType: Array  \nUpdate requires: No interruption"
+        },
+        "Label": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/DimensionField"
           },
           "maxItems": 200,
           "minItems": 0,
@@ -9166,15 +9283,6 @@
       },
       "additionalProperties": false,
       "markdownDescription": "\n\n---\n\nRequired: No  \nUpdate requires: No interruption"
-    },
-    "SpecialValue": {
-      "type": "string",
-      "enum": [
-        "EMPTY",
-        "NULL",
-        "OTHER"
-      ],
-      "markdownDescription": "\n\n---\n\nRequired: No  \nType: String  \nAllowed Values: EMPTY | NULL | OTHER  \nUpdate requires: No interruption"
     },
     "StringDefaultValues": {
       "type": "object",
@@ -10018,7 +10126,7 @@
           "items": {
             "$ref": "#/definitions/CalculatedField"
           },
-          "maxItems": 100,
+          "maxItems": 500,
           "minItems": 0,
           "markdownDescription": "\n\n---\n\nRequired: No  \nType: Array  \nUpdate requires: No interruption"
         },

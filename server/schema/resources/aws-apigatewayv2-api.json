@@ -189,6 +189,7 @@
     "create": {
       "permissions": [
         "apigateway:POST",
+        "apigateway:PUT",
         "s3:getObject"
       ]
     },
@@ -197,6 +198,7 @@
         "apigateway:PATCH",
         "apigateway:GET",
         "apigateway:PUT",
+        "apigateway:POST",
         "s3:getObject"
       ]
     },

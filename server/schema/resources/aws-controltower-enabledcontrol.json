@@ -27,7 +27,8 @@
       "permissions": [
         "controltower:ListEnabledControls",
         "controltower:GetControlOperation",
-        "controltower:EnableControl"
+        "controltower:EnableControl",
+        "organizations:UpdatePolicy"
       ]
     },
     "delete": {
@@ -37,6 +38,21 @@
       ]
     },
     "read": {
+      "permissions": [
+        "controltower:ListEnabledControls"
+      ]
+    },
+    "list": {
+      "handlerSchema": {
+        "properties": {
+          "TargetIdentifier": {
+            "$ref": "resource-schema.json#/properties/TargetIdentifier"
+          }
+        },
+        "required": [
+          "TargetIdentifier"
+        ]
+      },
       "permissions": [
         "controltower:ListEnabledControls"
       ]

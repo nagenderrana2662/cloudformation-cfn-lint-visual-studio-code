@@ -64,13 +64,16 @@
   "definitions": {
     "ParameterConstraints": {
       "type": "object",
-      "additionalProperties": false,
       "properties": {
         "Required": {
           "type": "boolean",
-          "markdownDescription": "\n\n---\n\nRequired: No  \nType: Boolean  \nUpdate requires: No interruption"
+          "markdownDescription": "\n\n---\n\nRequired: Yes  \nType: Boolean  \nUpdate requires: No interruption"
         }
       },
+      "required": [
+        "Required"
+      ],
+      "additionalProperties": false,
       "markdownDescription": "\n\n---\n\nRequired: No  \nUpdate requires: No interruption"
     }
   },
@@ -120,6 +123,16 @@
       ]
     },
     "list": {
+      "handlerSchema": {
+        "properties": {
+          "ApiId": {
+            "$ref": "resource-schema.json#/properties/ApiId"
+          }
+        },
+        "required": [
+          "ApiId"
+        ]
+      },
       "permissions": [
         "apigateway:GET"
       ]

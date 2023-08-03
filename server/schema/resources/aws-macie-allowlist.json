@@ -146,7 +146,8 @@
     "create": {
       "permissions": [
         "macie2:CreateAllowList",
-        "macie2:GetAllowList"
+        "macie2:GetAllowList",
+        "macie2:TagResource"
       ]
     },
     "read": {

@@ -67,6 +67,16 @@
       ],
       "markdownDescription": "Determines the cryptographic operations for which you can use the AWS KMS key. The default value is ENCRYPT_DECRYPT. This property is required only for asymmetric AWS KMS keys. You can't change the KeyUsage value after the AWS KMS key is created.\n\n---\n\nRequired: No  \nType: String  \nAllowed Values: ENCRYPT_DECRYPT | SIGN_VERIFY | GENERATE_VERIFY_MAC  \nUpdate requires: No interruption"
     },
+    "Origin": {
+      "description": "The source of the key material for the KMS key. You cannot change the origin after you create the KMS key. The default is AWS_KMS, which means that AWS KMS creates the key material.",
+      "type": "string",
+      "default": "AWS_KMS",
+      "enum": [
+        "AWS_KMS",
+        "EXTERNAL"
+      ],
+      "markdownDescription": "The source of the key material for the KMS key. You cannot change the origin after you create the KMS key. The default is AWS_KMS, which means that AWS KMS creates the key material.\n\n---\n\nRequired: No  \nType: String  \nAllowed Values: AWS_KMS | EXTERNAL  \nUpdate requires: No interruption"
+    },
     "KeySpec": {
       "description": "Specifies the type of AWS KMS key to create. The default value is SYMMETRIC_DEFAULT. This property is required only for asymmetric AWS KMS keys. You can't change the KeySpec value after the AWS KMS key is created.",
       "type": "string",
@@ -138,7 +148,8 @@
         "kms:CreateKey",
         "kms:EnableKeyRotation",
         "kms:DisableKey",
-        "kms:TagResource"
+        "kms:TagResource",
+        "kms:PutKeyPolicy"
       ]
     },
     "read": {
@@ -159,7 +170,8 @@
         "kms:PutKeyPolicy",
         "kms:TagResource",
         "kms:UntagResource",
-        "kms:UpdateKeyDescription"
+        "kms:UpdateKeyDescription",
+        "kms:ListResourceTags"
       ]
     },
     "delete": {
